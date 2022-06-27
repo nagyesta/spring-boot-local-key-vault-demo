@@ -1,2 +1,2 @@
-org.springframework.boot.env.EnvironmentPostProcessor=\
-com.github.nagyesta.example.sbkvdemo.KeyVaultEnvironmentPostProcessorImpl
+#org.springframework.boot.env.EnvironmentPostProcessor=\
+#com.github.nagyesta.example.sbkvdemo.KeyVaultEnvironmentPostProcessorImpl
