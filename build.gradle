@@ -1,0 +1,66 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'com.palantir.docker-run' version '0.34.0'
+//    id 'com.palantir.docker-compose' version '0.34.0'
+}
+
+group = 'com.github.nagyesta.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudAzureVersion', "4.2.0")
+}
+
+dependencies {
+    implementation 'com.azure.spring:spring-cloud-azure-starter-keyvault-secrets'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.azure.spring:spring-cloud-azure-dependencies:${springCloudAzureVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+dockerRun {
+    name 'example-lowkey-vault'
+    image 'nagyesta/lowkey-vault@sha256:3785158ba7cd13c63652a7709701663a2590543e7a8e3b6e12b3f0e73a1a5249'
+    volumes 'local/lowkey-vault/import': '/import'
+    ports '10543:10543'
+    daemonize true
+    arguments '--rm'
+    env 'LOWKEY_ARGS': '--server.port=10543 --LOWKEY_VAULT_NAMES=- --LOWKEY_IMPORT_LOCATION=/import/keyvault.json.hbs'
+}
+tasks.dockerRun.dependsOn dockerStop
+
+task waitForStartup {
+    doLast {
+        Thread.sleep(5000)
+    }
+    dependsOn tasks.dockerRun
+}
+
+bootRun {
+    systemProperty("javax.net.ssl.trustStore", file("${projectDir}/local-certs.p12"))
+    systemProperty("javax.net.ssl.trustStorePassword", "changeit")
+    dependsOn waitForStartup
+}
+
