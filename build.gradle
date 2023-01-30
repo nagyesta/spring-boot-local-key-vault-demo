@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.1'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
     id 'com.palantir.docker-run' version '0.34.0'
 //    id 'com.palantir.docker-compose' version '0.34.0'
@@ -21,7 +21,7 @@ repositories {
 }
 
 ext {
-    set('springCloudAzureVersion', "4.2.0")
+    set('springCloudAzureVersion', "4.5.0")
 }
 
 dependencies {
@@ -42,7 +42,7 @@ tasks.named('test') {
 
 dockerRun {
     name 'example-lowkey-vault'
-    image 'nagyesta/lowkey-vault@sha256:3785158ba7cd13c63652a7709701663a2590543e7a8e3b6e12b3f0e73a1a5249'
+    image 'nagyesta/lowkey-vault:1.15.0'
     volumes 'local/lowkey-vault/import': '/import'
     ports '10543:10543'
     daemonize true

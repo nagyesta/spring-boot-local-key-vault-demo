@@ -150,6 +150,7 @@ public class KeyVaultEnvironmentPostProcessorImpl implements EnvironmentPostProc
     SecretClient buildSecretClient(AzureKeyVaultSecretProperties secretProperties) {
         return new SecretClientBuilderFactory(secretProperties).build()
                 .credential(new BasicAuthenticationCredential("dummy", "dummy"))
+                .disableChallengeResourceVerification()
                 .buildClient();
     }
 
