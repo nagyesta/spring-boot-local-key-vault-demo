@@ -2,6 +2,6 @@
 
 Running the app
 ```shell
-docker-compose up
+docker-compose up -d
 ./gradlew bootRun
 ```
