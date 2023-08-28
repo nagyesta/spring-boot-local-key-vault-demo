@@ -5,12 +5,12 @@ package com.github.nagyesta.example.sbkvdemo;
 
 import com.azure.core.credential.BasicAuthenticationCredential;
 import com.azure.security.keyvault.secrets.SecretClient;
-import com.azure.spring.cloud.autoconfigure.context.AzureGlobalProperties;
+import com.azure.spring.cloud.autoconfigure.implementation.context.properties.AzureGlobalProperties;
+import com.azure.spring.cloud.autoconfigure.implementation.keyvault.environment.KeyVaultEnvironmentPostProcessor;
+import com.azure.spring.cloud.autoconfigure.implementation.keyvault.environment.KeyVaultOperation;
+import com.azure.spring.cloud.autoconfigure.implementation.keyvault.environment.KeyVaultPropertySource;
 import com.azure.spring.cloud.autoconfigure.implementation.keyvault.secrets.properties.AzureKeyVaultPropertySourceProperties;
 import com.azure.spring.cloud.autoconfigure.implementation.keyvault.secrets.properties.AzureKeyVaultSecretProperties;
-import com.azure.spring.cloud.autoconfigure.keyvault.environment.KeyVaultEnvironmentPostProcessor;
-import com.azure.spring.cloud.autoconfigure.keyvault.environment.KeyVaultOperation;
-import com.azure.spring.cloud.autoconfigure.keyvault.environment.KeyVaultPropertySource;
 import com.azure.spring.cloud.core.implementation.util.AzurePropertiesUtils;
 import com.azure.spring.cloud.service.implementation.keyvault.secrets.SecretClientBuilderFactory;
 import org.apache.commons.logging.Log;
