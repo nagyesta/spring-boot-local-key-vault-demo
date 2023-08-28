@@ -3,17 +3,31 @@ version: "3"
 services:
   lowkey-vault:
     container_name: example-lowkey-vault
-    image: nagyesta/lowkey-vault:1.15.0
+    image: nagyesta/lowkey-vault:2.0.0
     ports:
       - "10543:10543"
     volumes:
-      - key-import:/import/:ro
+      - lowkey-vault-spring-demo-import:/import/:ro
+      - lowkey-vault-spring-demo-data:/data/:ro
     environment:
-      LOWKEY_ARGS: "--server.port=10543 --LOWKEY_VAULT_NAMES=- --LOWKEY_DEBUG_REQUEST_LOG=true --LOWKEY_IMPORT_LOCATION=/import/keyvault.json.hbs"
+      LOWKEY_ARGS: "--server.port=10543 --LOWKEY_VAULT_NAMES=- --LOWKEY_DEBUG_REQUEST_LOG=true --LOWKEY_IMPORT_LOCATION=/data/keyvault.json.hbs"
+  assumed-identity:
+    container_name: example-assumed-identity
+    image: nagyesta/assumed-identity:1.1.0
+    ports:
+      - "10544:10544"
+    environment:
+      ASSUMED_ID_PORT: "10544"
 volumes:
-  key-import:
+  lowkey-vault-spring-demo-import:
     driver: local
     driver_opts:
       type: "none"
       o: "bind"
       device: "$PWD/local/lowkey-vault/import/"
+  lowkey-vault-spring-demo-data:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "$PWD/local/lowkey-vault/data/"
